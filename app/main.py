@@ -6,8 +6,14 @@ def main():
     conn, adress = server_socket.accept()
 
     with conn:
-        data = conn.recv(1024)
-        conn.send(b"HTTP/1.1 200 OK\r\n\r\n")
+        data = conn.recv(1024).decode()
+        head = data.split("\r\n")[0].split(" ")
+        path = head[1]
+
+        if path == "/":
+            conn.send(b"HTTP/1.1 200 OK\r\n\r\n")
+        else:
+            conn.send(b"HTTP/1.1 400 Not Found\r\n\r\n")
 
 
 if __name__ == "__main__":
