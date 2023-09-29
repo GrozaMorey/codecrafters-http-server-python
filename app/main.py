@@ -6,6 +6,7 @@ def main():
     conn, adress = server_socket.accept()
 
     with conn:
+        data = conn.recv(1024)
         conn.send(b"HTTP/1.1 200 OK\r\n\r\n")
 
 
