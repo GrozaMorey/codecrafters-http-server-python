@@ -6,14 +6,12 @@ def main():
 
     with conn:
         request = Request(conn.recv(1024).decode())
-
         if request.path == "/":
-            conn.send(b"HTTP/1.1 200 OK\r\n"
-                      )
+            conn.send(b"HTTP/1.1 200 OK\r\n\r\n")
         elif re.match("/echo/*", request.path):
             path = request.path.replace("/echo/", "")
             response = bytes(f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(path)}\r\n\r\n{path}", encoding="UTF-8",)
-            conn.sendall(response)
+            conn.send(response)
         else:
             conn.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
 
