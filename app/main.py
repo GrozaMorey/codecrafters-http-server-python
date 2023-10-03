@@ -1,6 +1,5 @@
 import socket
-
-#KEK
+import re
 def main():
     server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
     conn, adress = server_socket.accept()
@@ -11,7 +10,7 @@ def main():
         if request.path == "/":
             conn.send(b"HTTP/1.1 200 OK\r\n"
                       )
-        elif request.path == "/echo":
+        elif re.match("/echo/", request.path):
             path = request.path.replace("/echo/", "")
             response = bytes(f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(path)}\r\n\r\n{path}", encoding="UTF-8",)
             conn.send(response)
