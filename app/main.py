@@ -12,7 +12,8 @@ def main():
             conn.send(b"HTTP/1.1 200 OK\r\n"
                       )
         elif request.path == "/echo":
-            response = bytes(f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(request.data)}\r\n\r\n{request.data}", encoding="UTF-8",)
+            path = request.path.replace("/echo/", "")
+            response = bytes(f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(path)}\r\n\r\n{path}", encoding="UTF-8",)
             conn.send(response)
         else:
             conn.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
