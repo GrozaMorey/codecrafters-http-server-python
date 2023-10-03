@@ -10,7 +10,7 @@ def main():
         if request.path == "/":
             conn.send(b"HTTP/1.1 200 OK\r\n"
                       )
-        elif re.match("/echo/", request.path):
+        elif re.match("/echo/*", request.path):
             path = request.path.replace("/echo/", "")
             response = bytes(f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(path)}\r\n\r\n{path}", encoding="UTF-8",)
             conn.send(response)
