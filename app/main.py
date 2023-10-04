@@ -70,7 +70,7 @@ def main():
 
 class Response:
 
-    def __init__(self, body=None):
+    def __init__(self, body):
         if type(body) is str:
             self.content_type = "text/plain"
 
@@ -82,7 +82,7 @@ class Response:
         print("response sending...")
         conn.sendall(bytes(f"HTTP/1.1 200 OK\r\n"
                         f"Content-Type: {self.content_type}\r\n"
-                        f"Content-Length: {self.content_length}\r\n" + f"\r\n{self.body}" if self.body else "",
+                        f"Content-Length: {self.content_length}\r\n" + f"\r\n{self.body}",
                         encoding="UTF-8", )
                   )
         print("response was success send")
