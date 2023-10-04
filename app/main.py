@@ -28,12 +28,13 @@ def handle_client(conn, adress):
 
                 print("file is", file.read())
 
-                response = Response(file.read())
+                response = Response()
+                response.body = file.read()
                 response.content_type = "application/octet-stream"
                 response.content_length = os.path.getsize(directory + filename)
 
-                file.close()
                 response.send(conn)
+                file.close()
 
             else:
                 conn.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
@@ -61,7 +62,7 @@ class Request:
 
 
 def main():
-    server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
+    server_socket = socket.create_server(("localhost", 4221), reuse_port=False)
 
     while True:
         conn, adress = server_socket.accept()
@@ -70,7 +71,7 @@ def main():
 
 class Response:
 
-    def __init__(self, body):
+    def __init__(self, body=None):
         if type(body) is str:
             self.content_type = "text/plain"
 
