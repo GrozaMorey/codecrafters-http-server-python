@@ -87,7 +87,7 @@ class Response:
                         encoding="UTF-8", )
                   )
         print("response was success send")
-         q
+
 
 if __name__ == "__main__":
     main()
