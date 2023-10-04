@@ -26,11 +26,12 @@ def handle_client(conn, adress):
             if os.path.exists(directory + filename):
                 file = open(directory + filename, "rb")
 
-                response = Response("")
+                response = Response()
                 response.content_type = "application/octet-stream"
                 response.content_length = os.path.getsize(directory + filename)
-                response.body = file.read()
+
                 response.send(conn)
+                Response(file.read()).send(conn)
 
                 file.close()
         else:
@@ -66,7 +67,7 @@ def main():
 
 class Response:
 
-    def __init__(self, body, code=200):
+    def __init__(self, body=None, code=200):
         if type(body) is str:
             self.code = code
             self.content_type = "text/plain"
