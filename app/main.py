@@ -27,7 +27,7 @@ def handle_client(conn, adress):
             if os.path.exists(directory + filename):
                 file = open(directory + filename, "rb").read()
 
-                response = Response(file)
+                response = Response(file, 200)
                 response.content_type = "application/octet-stream"
                 response.content_length = os.path.getsize(directory + filename)
 
@@ -60,7 +60,7 @@ class Request:
 
 
 def main():
-    server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
+    server_socket = socket.create_server(("localhost", 4221), reuse_port=False)
 
     while True:
         conn, adress = server_socket.accept()
