@@ -35,6 +35,8 @@ def handle_client(conn, adress):
                 Response(file.read()).send(conn)
 
                 file.close()
+            else:
+                conn.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
         else:
             conn.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
 
