@@ -23,20 +23,16 @@ def handle_client(conn, adress):
             filename = request.path.split("/")[-1]
             print("file is", filename, "path is", request.path)
 
-
             directory = sys.argv[-1]
             if os.path.exists(directory + filename):
-                file = open(directory + filename, "rb")
+                file = open(directory + filename, "rb").read()
 
-                response = Response()
+                response = Response(file)
                 response.content_type = "application/octet-stream"
                 response.content_length = os.path.getsize(directory + filename)
 
-                print(response.content_type)
-
                 response.send(conn)
 
-                file.close()
             else:
                 conn.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
         else:
