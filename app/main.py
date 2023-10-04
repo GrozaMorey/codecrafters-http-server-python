@@ -25,7 +25,6 @@ def handle_client(conn, adress):
 
             directory = sys.argv[-1]
             if os.path.exists(directory + filename):
-                print("dada")
                 file = open(directory + filename, "rb")
 
                 response = Response()
@@ -33,7 +32,7 @@ def handle_client(conn, adress):
                 response.content_length = os.path.getsize(directory + filename)
 
                 response.send(conn)
-                Response(file.read(),).send(conn)
+                Response(file.read()).send(conn)
 
                 file.close()
         else:
@@ -81,7 +80,7 @@ class Response:
     def send(self, conn):
         conn.send(bytes(f"HTTP/1.1 {self.code} OK\r\n"
                         f"Content-Type: {self.content_type}\r\n"
-                        f"Content-Length: {self.content_length}\r\n\r\n{self.body}",
+                        f"Content-Length: {self.content_length}\r\n" + f"\r\n{self.body}" if self.body else "",
                         encoding="UTF-8", )
                   )
 
