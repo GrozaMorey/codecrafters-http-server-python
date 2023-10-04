@@ -79,6 +79,7 @@ class Response:
             self.body = body
 
     def send(self, conn):
+        print("response sending...")
         conn.send(bytes(f"HTTP/1.1 {self.code} OK\r\n"
                         f"Content-Type: {self.content_type}\r\n"
                         f"Content-Length: {self.content_length}\r\n" + f"\r\n{self.body}" if self.body else "",
