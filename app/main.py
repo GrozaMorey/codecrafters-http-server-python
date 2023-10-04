@@ -87,7 +87,8 @@ class Response:
                         f"Content-Length: {self.content_length}\r\n" + f"\r\n{self.body}" if self.body else "",
                         encoding="UTF-8", )
                   )
-
+        print("response was success send")
+        
 
 if __name__ == "__main__":
     main()
