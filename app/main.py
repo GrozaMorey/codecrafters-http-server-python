@@ -26,8 +26,6 @@ def handle_client(conn, adress):
             if os.path.exists(directory + filename):
                 file = open(directory + filename, "rb")
 
-                print("file is", file.read())
-
                 response = Response()
                 response.body = file.read()
                 response.content_type = "application/octet-stream"
