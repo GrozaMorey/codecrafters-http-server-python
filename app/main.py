@@ -28,11 +28,12 @@ def handle_client(conn, adress):
             if os.path.exists(directory + filename):
                 file = open(directory + filename, "rb")
 
-                response = Response(file.read())
+                response = Response()
                 response.content_type = "application/octet-stream"
                 response.content_length = os.path.getsize(directory + filename)
 
                 response.send(conn)
+                conn.send(file.read())
 
                 file.close()
             else:
