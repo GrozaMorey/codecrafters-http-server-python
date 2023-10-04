@@ -1,10 +1,11 @@
 import socket
 import re
 import threading
+import sys
+import os
 
 def handle_client(conn, adress):
     print("connect by", adress)
-
 
     with conn:
         request = Request(conn.recv(1024).decode())
@@ -13,13 +14,25 @@ def handle_client(conn, adress):
 
         elif re.match("/echo/*", request.path):
             path = request.path.replace("/echo/", "")
-            response = bytes(
-                f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(path)}\r\n\r\n{path}",
-                encoding="UTF-8", )
-            conn.send(response)
+            Response(path).send(conn)
 
         elif re.match("/user-agent/*", request.path):
             Response(request.user_agent).send(conn)
+
+        elif re.match("/files/*", request.path):
+            filename = request.path.split("/")[-1]
+
+            directory = sys.argv[-1]
+            if os.path.exists(directory + filename):
+                file = open(directory + filename, "rb")
+
+                response = Response("")
+                response.content_type = "application/octet-stream"
+                response.content_length = os.path.getsize(directory + filename)
+                response.body = file.read()
+                response.send(conn)
+
+                file.close()
         else:
             conn.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
 
@@ -53,9 +66,10 @@ def main():
 
 class Response:
 
-    def __init__(self, body, code=200,):
+    def __init__(self, body, code=200):
         if type(body) is str:
             self.code = code
+            self.content_type = "text/plain"
 
         if body:
             self.content_length = len(body)
@@ -63,7 +77,7 @@ class Response:
 
     def send(self, conn):
         conn.send(bytes(f"HTTP/1.1 {self.code} OK\r\n"
-                        f"Content-Type: text/plain\r\n"
+                        f"Content-Type: {self.content_type}\r\n"
                         f"Content-Length: {self.content_length}\r\n\r\n{self.body}",
                         encoding="UTF-8", )
                   )
