@@ -21,10 +21,11 @@ def handle_client(conn, adress):
 
         elif re.match("/files/*", request.path):
             filename = request.path.split("/")[-1]
-            print("file is ", filename, "path is", request.path)
+            print("file is", filename, "path is", request.path)
 
             directory = sys.argv[-1]
             if os.path.exists(directory + filename):
+                print("dada")
                 file = open(directory + filename, "rb")
 
                 response = Response()
