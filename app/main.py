@@ -64,7 +64,8 @@ def main():
 
     while True:
         conn, adress = server_socket.accept()
-        threading.Thread(target=handle_client, args=(conn,adress)).start()
+        tread = threading.Thread(target=handle_client, args=(conn,adress))
+        tread.start()
 
 
 class Response:
