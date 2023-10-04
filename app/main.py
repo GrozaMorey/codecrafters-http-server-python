@@ -36,7 +36,7 @@ class Request:
             try:
                 i = i.split(": ")
 
-                setattr(self, i[0].lower().replace(" ", "").replace("-", "_"), i[1].lower().replace(" ", ""))
+                setattr(self, i[0].lower().replace(" ", "").replace("-", "_"), i[1].replace(" ", ""))
 
             except IndexError:
                 continue
