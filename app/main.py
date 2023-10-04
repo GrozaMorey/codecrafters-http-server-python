@@ -33,7 +33,6 @@ def handle_client(conn, adress):
                 response.content_length = os.path.getsize(directory + filename)
 
                 response.send(conn)
-                conn.send(file.read())
 
                 file.close()
             else:
@@ -88,7 +87,7 @@ class Response:
                         encoding="UTF-8", )
                   )
         print("response was success send")
-        
+         q
 
 if __name__ == "__main__":
     main()
