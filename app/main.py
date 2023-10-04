@@ -29,7 +29,7 @@ def handle_client(conn, adress):
 
                 response = Response(file.read())
                 response.content_type = "application/octet-stream"
-                response.content_length = len(response.body)
+                response.content_length = 1000
 
                 file.close()
                 response.send(conn)
