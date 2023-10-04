@@ -27,7 +27,7 @@ def handle_client(conn, adress):
             if os.path.exists(directory + filename):
                 file = open(directory + filename, "rb").read()
 
-                response = Response(file, 200)
+                response = Response(file)
                 response.content_type = "application/octet-stream"
                 response.content_length = os.path.getsize(directory + filename)
 
@@ -69,9 +69,8 @@ def main():
 
 class Response:
 
-    def __init__(self, body=None, code=200):
+    def __init__(self, body=None):
         if type(body) is str:
-            self.code = code
             self.content_type = "text/plain"
 
         if body:
@@ -80,7 +79,7 @@ class Response:
 
     def send(self, conn):
         print("response sending...")
-        conn.sendall(bytes(f"HTTP/1.1 {self.code} OK\r\n"
+        conn.send(bytes(f"HTTP/1.1 200 OK\r\n"
                         f"Content-Type: {self.content_type}\r\n"
                         f"Content-Length: {self.content_length}\r\n" + f"\r\n{self.body}" if self.body else "",
                         encoding="UTF-8", )
