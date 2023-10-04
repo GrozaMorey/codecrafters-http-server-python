@@ -21,6 +21,7 @@ def handle_client(conn, adress):
 
         elif re.match("/files/*", request.path):
             filename = request.path.split("/")[-1]
+            print("file is ", filename)
 
             directory = sys.argv[-1]
             if os.path.exists(directory + filename):
@@ -31,7 +32,7 @@ def handle_client(conn, adress):
                 response.content_length = os.path.getsize(directory + filename)
 
                 response.send(conn)
-                Response(file.read()).send(conn)
+                Response(file.read(),).send(conn)
 
                 file.close()
         else:
