@@ -81,9 +81,9 @@ class Response:
 
     def send(self, conn):
         print("response sending...")
-        conn.sendall(bytes(f"HTTP/1.1 200 OK\r\n"
-                        f"Content-Type: {self.content_type}\r\n"
-                        f"Content-Length: {self.content_length}\r\n" + f"\r\n{self.body}", encoding="ascii")
+        conn.sendall((b"HTTP/1.1 200 OK\r\n"
+                      + f"Content-Type: {self.content_type}\r\n Content-Length: {self.content_length}\r\n".encode("utf-8")
+                      + f"\r\n{self.body}")
                   )
         print("response was success send")
 
