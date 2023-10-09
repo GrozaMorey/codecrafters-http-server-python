@@ -30,8 +30,7 @@ def handle_client(conn, adress):
                 response.body = file.read()
                 response.content_type = "application/octet-stream"
                 response.content_length = os.path.getsize(directory + filename)
-                print(len(response.body))
-                print(response.content_length, response.content_type)
+
                 response.send(conn)
                 file.close()
 
@@ -85,6 +84,7 @@ class Response:
         headers = f"HTTP/1.1 200 OK\r\n" \
                   f"Content-Type: {self.content_type}\r\n" \
                   f"Content-Length: {self.content_length}\r\n".encode("utf-8")
+
         if self.content_type == "text/plain":
             body = f"\r\n{self.body}".encode("utf-8")
 
@@ -92,7 +92,7 @@ class Response:
             print("zopa")
             body = f"\r\n{self.body}"
 
-        conn.send(bytes(headers + body,))
+        conn.send(headers + body)
         print("response was success send")
 
 
