@@ -31,6 +31,7 @@ def handle_client(conn, adress):
                 response.content_type = "application/octet-stream"
                 response.content_length = os.path.getsize(directory + filename)
 
+                print(response.content_length, response.content_type)
                 response.send(conn)
                 file.close()
 
