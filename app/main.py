@@ -81,11 +81,17 @@ class Response:
 
     def send(self, conn):
         print("response sending...")
-        conn.sendall(bytes(f"HTTP/1.1 200 OK\r\n"
-                        f"Content-Type: {self.content_type}\r\n"
-                        f"Content-Length: {self.content_length}\r\n".encode("unf-8") + f"\r\n{self.body}",
-                           )
-                  )
+
+        headers = f"HTTP/1.1 200 OK\r\n " \
+                  f"Content-Type: {self.content_type}\r\n" \
+                  f"Content-Length: {self.content_length}\r\n".encode("utf-8")
+        if self.content_type == "text/plain":
+            body = f"\r\n{self.body}".encode("utf-8")
+
+        elif self.content_type == "application/octet-stream":
+            body = f"\r\n{self.body}"
+
+        conn.sendall(bytes(headers + body,))
         print("response was success send")
 
 
