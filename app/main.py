@@ -84,7 +84,7 @@ class Response:
         conn.sendall(bytes(f"HTTP/1.1 200 OK\r\n"
                         f"Content-Type: {self.content_type}\r\n"
                         f"Content-Length: {self.content_length}\r\n" + f"\r\n{self.body}",
-                        encoding="UTF-8", )
+                        encoding="UTF-8" if self.content_type == "text/plain" else None, )
                   )
         print("response was success send")
 
