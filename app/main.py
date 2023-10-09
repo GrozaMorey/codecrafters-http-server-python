@@ -91,7 +91,7 @@ class Response:
         elif self.content_type == "application/octet-stream":
             body = f"\r\n{self.body}"
 
-        conn.sendall(bytes(headers + body,))
+        conn.send(bytes(headers + body,))
         print("response was success send")
 
 
