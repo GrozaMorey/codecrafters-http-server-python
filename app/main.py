@@ -27,7 +27,7 @@ def handle_client(conn, adress):
                 file = open(directory + filename, "rb")
 
                 response = Response()
-                response.body = "zopa"
+                response.body = file.read()
                 response.content_type = "application/octet-stream"
                 response.content_length = os.path.getsize(directory + filename)
 
