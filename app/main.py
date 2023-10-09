@@ -89,6 +89,7 @@ class Response:
             body = f"\r\n{self.body}".encode("utf-8")
 
         elif self.content_type == "application/octet-stream":
+            print("zopa")
             body = f"\r\n{self.body}"
 
         conn.send(bytes(headers + body,))
