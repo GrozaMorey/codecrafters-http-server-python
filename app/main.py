@@ -75,13 +75,14 @@ def main():
 class Response:
 
     def __init__(self, body=None, code=200):
+        self.code = code
+        self.body = body
         if type(body) is str:
             self.content_type = "text/plain"
 
         if body:
             self.content_length = len(body)
-            self.body = body
-        self.code = code
+
 
     def send(self, conn):
 
