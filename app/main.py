@@ -99,6 +99,7 @@ class Response:
                       )
 
         else:
+            print("zoooooooooooooooooooooooooooooooopa")
             conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n")
         print("response was success send")
 
