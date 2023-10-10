@@ -94,6 +94,7 @@ class Response:
         }
 
         print("response sending...")
+        print(self.body)
         if not self.body:
             print("zopa")
             conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n")
