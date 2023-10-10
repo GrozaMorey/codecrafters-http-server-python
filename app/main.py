@@ -23,19 +23,19 @@ def handle_client(conn, adress):
             directory = sys.argv[-1]
             filename = request.path.split("/")[-1]
 
-            if request.method == "POST":
-                file_dir = directory + filename
-                with open(file_dir, "w") as file:
-                    file.write(request.data)
-                response = Response(code=201)
-                response.send(conn)
-
             if os.path.exists(directory + filename):
                 file = open(directory + filename, "rb")
                 response = Response(file.read().decode("utf-8"))
                 response.content_type = "application/octet-stream"
                 response.send(conn)
                 file.close()
+
+            elif request.method == "POST":
+                file_dir = directory + filename
+                with open(file_dir, "w") as file:
+                    file.write(request.data)
+                response = Response(code=201)
+                response.send(conn)
 
             else:
                 conn.send(b"HTTP/1.1 404 Not Found\r\n\r\n")
@@ -100,7 +100,6 @@ class Response:
                       )
 
         else:
-            print("zoooooooooooooooooooooooooooooooopa")
             conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n".encode("utf-8"))
         print("response was success send")
 
