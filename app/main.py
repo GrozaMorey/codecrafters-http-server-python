@@ -8,7 +8,7 @@ def handle_client(conn, adress):
     print("connect by", adress)
 
     with conn:
-        request = Request(conn.recv(1024).decode())
+        request = Request(conn.recv(4096).decode())
         if request.path == "/":
             conn.send(b"HTTP/1.1 200 OK\r\n\r\n")
 
