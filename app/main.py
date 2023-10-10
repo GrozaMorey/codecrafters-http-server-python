@@ -22,18 +22,17 @@ def handle_client(conn, adress):
         elif re.match("/files/*", request.path):
             directory = sys.argv[-1]
             filename = request.path.split("/")[-1]
+
             if request.method == "POST":
                 file_dir = directory + filename
-                print(file_dir)
-                with open(file_dir, "wb") as file:
+                print("file is: ", request.data)
+                with open(file_dir, "w") as file:
                     file.write(request.data)
                 response = Response(code=201)
-                conn.send(b"HTTP/1.1 201 Created\r\n\r\n")
-
+                response.send(conn)
 
             if os.path.exists(directory + filename):
                 file = open(directory + filename, "rb")
-
                 print("filename: ", directory + filename)
                 response = Response(file.read().decode("utf-8"))
                 response.content_type = "application/octet-stream"
