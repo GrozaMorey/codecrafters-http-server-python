@@ -25,7 +25,6 @@ def handle_client(conn, adress):
 
             if request.method == "POST":
                 file_dir = directory + filename
-                print("file is:", request.data)
                 with open(file_dir, "w") as file:
                     file.write(request.data)
                 response = Response(code=201)
@@ -33,7 +32,6 @@ def handle_client(conn, adress):
 
             if os.path.exists(directory + filename):
                 file = open(directory + filename, "rb")
-                print("filename: ", directory + filename)
                 response = Response(file.read().decode("utf-8"))
                 response.content_type = "application/octet-stream"
                 response.send(conn)
@@ -94,15 +92,14 @@ class Response:
         }
 
         print("response sending...")
-        print(self.body)
-        if not self.body:
-            print("zopa")
-            conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n")
+        if self.body:
+            conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n"
+                      f"Content-Type: {self.content_type}\r\n"
+                      f"Content-Length: {self.content_length}\r\n\r\n{self.body}".encode()
+                      )
 
-        conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n"
-                        f"Content-Type: {self.content_type}\r\n"
-                        f"Content-Length: {self.content_length}\r\n\r\n{self.body}".encode()
-                  )
+        else:
+            conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n")
         print("response was success send")
 
 
