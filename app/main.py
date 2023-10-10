@@ -100,7 +100,7 @@ class Response:
                       )
 
         else:
-            conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n".encode("utf-8"))
+            conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n\r\n".encode())
         print("response was success send")
 
 
