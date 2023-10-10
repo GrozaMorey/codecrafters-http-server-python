@@ -23,9 +23,10 @@ def handle_client(conn, adress):
             directory = sys.argv[-1]
             filename = request.path.split("/")[-1]
             if request.method == "POST":
-                file = directory + filename
-
-                file.write_bytes(request.data)
+                file_dir = directory + filename
+                print(request.data)
+                with open(file_dir, "wb") as file:
+                    file.write(request.data)
                 Response(code=201).send(conn)
 
 
@@ -33,10 +34,8 @@ def handle_client(conn, adress):
                 file = open(directory + filename, "rb")
 
                 print("filename: ", directory + filename)
-                response = Response()
-                response.body = file.read().decode("utf-8")
+                response = Response(file.read().decode("utf-8"))
                 response.content_type = "application/octet-stream"
-                response.content_length = len(response.body)
                 response.send(conn)
                 file.close()
 
