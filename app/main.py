@@ -101,7 +101,7 @@ class Response:
 
         else:
             print("zoooooooooooooooooooooooooooooooopa")
-            conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n")
+            conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n".encode("utf-8"))
         print("response was success send")
 
 
