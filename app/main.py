@@ -93,6 +93,7 @@ class Response:
 
         print("response sending...")
         if self.body:
+            print("zoooooooooooooooooooooooooooooooopa")
             conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n"
                       f"Content-Type: {self.content_type}\r\n"
                       f"Content-Length: {self.content_length}\r\n\r\n{self.body}".encode()
