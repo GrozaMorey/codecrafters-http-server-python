@@ -36,7 +36,7 @@ def handle_client(conn, adress):
                 response = Response()
                 response.body = file.read().decode("utf-8")
                 response.content_type = "application/octet-stream"
-
+                response.content_length = len(response.body)
                 response.send(conn)
                 file.close()
 
