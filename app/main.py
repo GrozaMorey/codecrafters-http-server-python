@@ -25,7 +25,7 @@ def handle_client(conn, adress):
 
             if request.method == "POST":
                 file_dir = directory + filename
-                print("file is:", "1")
+                print("file is:", request.data)
                 with open(file_dir, "w") as file:
                     file.write(request.data)
                 response = Response(code=201)
