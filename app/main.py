@@ -23,15 +23,18 @@ def handle_client(conn, adress):
             filename = request.path.split("/")[-1]
 
             directory = sys.argv[-1]
+            print("filename: ", directory + filename)
             if os.path.exists(directory + filename):
                 file = open(directory + filename, "rb")
 
+                print("zopa")
+                print("filename: ", directory + filename)
                 response = Response()
                 response.body = file.read()
                 response.content_type = "application/octet-stream"
                 response.content_length = os.path.getsize(directory + filename)
-                print(len(response.body))
-                print(response.content_length, response.content_type)
+
+
                 response.send(conn)
                 file.close()
 
@@ -84,7 +87,7 @@ class Response:
 
         conn.sendall(f"HTTP/1.1 200 OK\r\n"
                         f"Content-Type: {self.content_type}\r\n"
-                        f"Content-Length: {self.content_length}\r\n" + f"\r\n{self.body}",
+                        f"Content-Length: {self.content_length}\r\n\r\n{self.body}".encode(),
                   )
         print("response was success send")
 
