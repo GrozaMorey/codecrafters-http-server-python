@@ -94,6 +94,8 @@ class Response:
         }
 
         print("response sending...")
+        if not self.body:
+            conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n")
 
         conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n"
                         f"Content-Type: {self.content_type}\r\n"
