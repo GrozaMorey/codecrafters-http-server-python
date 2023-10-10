@@ -20,20 +20,22 @@ def handle_client(conn, adress):
             Response(request.user_agent).send(conn)
 
         elif re.match("/files/*", request.path):
-            filename = request.path.split("/")[-1]
-
             directory = sys.argv[-1]
-            print("filename: ", directory + filename)
+            filename = request.path.split("/")[-1]
+            if request.method == "POST":
+                file = directory + filename
+
+                file.write_bytes(request.data)
+                Response(code=201).send(conn)
+
+
             if os.path.exists(directory + filename):
                 file = open(directory + filename, "rb")
 
-                print("zopa")
                 print("filename: ", directory + filename)
                 response = Response()
                 response.body = file.read().decode("utf-8")
                 response.content_type = "application/octet-stream"
-                response.content_length = os.path.getsize(directory + filename)
-
 
                 response.send(conn)
                 file.close()
@@ -48,6 +50,7 @@ class Request:
     def __init__(self, data):
         data = data.split("\r\n")
         self.path = data[0].split(" ")[1]
+        self.method = data[0].split(" ")[0]
         data.pop(0)
 
         if type(data[-1]) is str:
@@ -74,18 +77,26 @@ def main():
 
 class Response:
 
-    def __init__(self, body=None):
+    def __init__(self, body=None, code=200):
         if type(body) is str:
             self.content_type = "text/plain"
 
         if body:
             self.content_length = len(body)
             self.body = body
+        self.code = code
 
     def send(self, conn):
+
+        code = {
+            200: "OK",
+            404: "NOT FOUND",
+            201: "CREATED",
+        }
+
         print("response sending...")
 
-        conn.send(f"HTTP/1.1 200 OK\r\n"
+        conn.send(f"HTTP/1.1 {self.code} {code[self.code]}\r\n"
                         f"Content-Type: {self.content_type}\r\n"
                         f"Content-Length: {self.content_length}\r\n\r\n{self.body}".encode()
                   )
