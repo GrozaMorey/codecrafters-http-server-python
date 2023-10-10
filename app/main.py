@@ -27,7 +27,7 @@ def handle_client(conn, adress):
                 print(request.data)
                 with open(file_dir, "wb") as file:
                     file.write(request.data)
-                Response(code=201).send(conn)
+               
 
 
             if os.path.exists(directory + filename):
