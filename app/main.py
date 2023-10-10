@@ -87,8 +87,9 @@ class Response:
 
         conn.sendall(f"HTTP/1.1 200 OK\r\n"
                         f"Content-Type: {self.content_type}\r\n"
-                        f"Content-Length: {self.content_length}\r\n\r\n{self.body}".encode(),
+                        f"Content-Length: {self.content_length}\r\n".encode(),
                   )
+        conn.send(f"\r\n{self.body}")
         print("response was success send")
 
 
